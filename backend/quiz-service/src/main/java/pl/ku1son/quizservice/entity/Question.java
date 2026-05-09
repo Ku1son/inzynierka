@@ -2,8 +2,8 @@ package pl.ku1son.quizservice.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 
 
@@ -24,7 +24,8 @@ public class Question {
     private Quiz quiz;
     @Builder.Default
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Answer> answers = new HashSet<>();
+    @OrderColumn(name = "answer_order")
+    private List<Answer> answers = new ArrayList<>();
     private String content;
 
     public void addAnswer(Answer answer) {

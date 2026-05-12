@@ -13,7 +13,10 @@
 
 
   <div class="quiz-list">
-    @if (quizzes().length === 0) { 
+
+
+    <!--jak nie ma zadnych quiow-->
+    @if (quizzes().length === 0) {  
       <div class="quiz-list-placeholder card"> 
         <p>
           Your quizzes will appear here.
@@ -22,55 +25,83 @@
     } 
 
 
-    @for (quiz of quizzes(); track quiz.id) { 
-      <div class="quiz-item card fade-in">
-        @if (editingQuizId() === quiz.id) {
-        <input
-          class="quiz-title-input"
-          [ngModel]="editedTitle()"
-          (ngModelChange)="editedTitle.set($event)"
-          (keydown.enter)="onSaveTitle(quiz.id)"
-        />
-        } @else {
-          <button
-            class="quiz-button"
-            (click)="onQuizClick(quiz.id)"
-          >
-            {{ quiz.title }}
-          </button>
-        }
+    <!--jak sa jakies quizy-->
+    @else {  
+      @for (quiz of quizzes(); track quiz.id) { 
+        <div class="quiz-item card fade-in">
 
-        <div class="quiz-actions">
-          @if (editingQuizId() === quiz.id) {
-            <button
-              class="action-button save-button"
-              (click)="onSaveTitle(quiz.id)"
-            >
-              ✔
-            </button>
-            <button
-              class="action-button cancel-button"
-              (click)="onCancelEdit()"
-            >
-              ✖
-            </button>
+          <!--lewa czesc sidebaru-->
+          @if (editingQuizId() === quiz.id) {  <!--jak jestesmy w trybie edytowania to pokaz input-->
+          <input
+            class="quiz-title-input"
+            [ngModel]="editedTitle()"
+            (ngModelChange)="editedTitle.set($event)"
+            (keydown.enter)="onSaveTitle(quiz.id)"/>
           } 
-          @else {
+          @else {  <!--jak nie jestesmy w trybie edytowania to tytuly quizow-->
             <button
-              class="action-button edit-button"
-              (click)="onEditTitle(quiz.id)"
-            >
-              ✏
-            </button>
-            <button
-              class="action-button delete-button"
-              (click)="onDeleteQuiz(quiz.id)"
-            >
-              🗑
+              class="quiz-button"
+              (click)="onQuizClick(quiz.id)">
+              {{ quiz.title }}
             </button>
           }
+
+          <!--prawa czesc sidebaru-->
+          <div class="quiz-actions">
+            @if (editingQuizId() === quiz.id) {  <!--jak jestesmy w trybie edytowania to guziki save i cancel-->
+              <button
+                class="action-button save-button"
+                (click)="onSaveTitle(quiz.id)">
+                ✔
+              </button>
+              <button
+                class="action-button cancel-button"
+                (click)="onCancelEdit()">
+                ✖
+              </button>
+            } 
+            @else {  <!--jak nie jestesmy w trybie edytowania to guziki edit i delete-->
+              <button
+                class="action-button edit-button"
+                (click)="onEditTitle(quiz.id)">
+                ✏
+              </button>
+              <button
+                class="action-button delete-button"
+                (click)="onDeleteQuiz(quiz.id)">
+                🗑
+              </button>
+            }
+          </div>
         </div>
-      </div>
-    } 
+      } 
+    }
   </div>
 </aside>
+
+
+
+
+<!--popup usuwania quizu-->
+@if (deletingQuizId() !== null) { 
+  <div class="delete-overlay">
+    <div class="delete-modal card">
+      <h3>Delete quiz?</h3>
+      <p>
+        This action cannot be undone.
+      </p>
+      <div class="delete-modal-actions">
+        <button
+          class="btn cancel-delete-btn"
+          (click)="onCancelDelete()">
+          Cancel
+        </button>
+        <button
+          class="btn btn-danger"
+          (click)="onConfirmDeleteQuiz(deletingQuizId()!)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+}

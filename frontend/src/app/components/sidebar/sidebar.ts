@@ -17,18 +17,17 @@ import { FormsModule } from '@angular/forms';
 export class Sidebar implements OnInit {
   private quizService = inject(QuizService);
   quizzes = signal<QuizRaw[]>([]);
-  editingQuizId = signal<number | null>(null)
   editedTitle = signal('');
+  editingQuizId = signal<number | null>(null)
+  deletingQuizId = signal<number | null>(null)
 
   ngOnInit(): void {
     this.loadQuizzes();
   }
 
   loadQuizzes(): void {
-    console.log('Loading quizzes...');
     this.quizService.getAllQuizzes().subscribe({
       next: (data) => {
-        console.log('Received quizzes:', data);
         this.quizzes.set(data);
       },
       error: (err) => {
@@ -42,6 +41,8 @@ export class Sidebar implements OnInit {
     console.log('Quiz clicked:', quizId);
   }
 
+
+  //----EDIT----
   onEditTitle(quizId: number): void {
     const quiz = this.quizzes().find(q => q.id === quizId);
     if (!quiz) {
@@ -52,37 +53,57 @@ export class Sidebar implements OnInit {
   }
 
   onSaveTitle(quizId: number): void {
-  const newTitle = this.editedTitle().trim();
-  if (!newTitle) {
-    return;
-  }
-  this.quizService.updateQuizTitle(quizId, {
-    title: newTitle
-  }).subscribe({
-    next: (updatedQuiz) => {
-      this.quizzes.update(quizzes =>
-        quizzes.map(q =>
-          q.id === quizId
-            ? updatedQuiz
-            : q
-        )
-      );
-      this.editingQuizId.set(null);
-      this.editedTitle.set('');
-    },
-    error: (err) => {
-      console.error('Failed to update title', err);
+    const newTitle = this.editedTitle().trim();
+    if (!newTitle) {
+      return;
     }
-  });
-}
+    this.quizService.updateQuizTitle(quizId, {
+      title: newTitle
+      }).subscribe({
+        next: (updatedQuiz) => {
+          this.quizzes.update(quizzes =>
+            quizzes.map(q => q.id === quizId ? updatedQuiz : q)
+          );
+          this.editingQuizId.set(null);
+          this.editedTitle.set('');
+        },
+        error: (err) => {
+          console.error('Failed to update title', err);
+        }
+      });
+  }
 
-onCancelEdit(): void {
-  this.editingQuizId.set(null);
-  this.editedTitle.set('');
-}
+  onCancelEdit(): void {
+    this.editingQuizId.set(null);
+    this.editedTitle.set('');
+  }
 
+
+  //----DELETE----
   onDeleteQuiz(quizId: number): void {
-    // TODO: delete quiz
-    console.log('Delete quiz:', quizId);
+    const quiz = this.quizzes().find(q => q.id === quizId);
+    if (!quiz) {
+      return;
+    }
+    this.deletingQuizId.set(quizId);
+  }
+
+  onConfirmDeleteQuiz(quizId: number): void {
+    this.quizService.deleteQuiz(quizId)
+    .subscribe({
+      next: () => {
+        this.quizzes.update(quizzes =>
+          quizzes.filter(q => q.id !== quizId)
+        )
+        this.deletingQuizId.set(null);
+      },
+      error: (err) => {
+        console.error('Failed to delete quiz', err);
+      }
+    });
+  }
+
+  onCancelDelete(): void {
+    this.deletingQuizId.set(null);
   }
 }

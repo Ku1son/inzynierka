@@ -1,0 +1,76 @@
+<aside class="sidebar">
+
+
+
+  <div class="sidebar-header">
+    <h3>Your quizzes</h3>
+    <button class="btn btn-primary">
+      + New Quiz
+      <!-- TODO: create quiz -->
+    </button>
+  </div>
+
+
+
+  <div class="quiz-list">
+    @if (quizzes().length === 0) { 
+      <div class="quiz-list-placeholder card"> 
+        <p>
+          Your quizzes will appear here.
+        </p>
+      </div>
+    } 
+
+
+    @for (quiz of quizzes(); track quiz.id) { 
+      <div class="quiz-item card fade-in">
+        @if (editingQuizId() === quiz.id) {
+        <input
+          class="quiz-title-input"
+          [ngModel]="editedTitle()"
+          (ngModelChange)="editedTitle.set($event)"
+          (keydown.enter)="onSaveTitle(quiz.id)"
+        />
+        } @else {
+          <button
+            class="quiz-button"
+            (click)="onQuizClick(quiz.id)"
+          >
+            {{ quiz.title }}
+          </button>
+        }
+
+        <div class="quiz-actions">
+          @if (editingQuizId() === quiz.id) {
+            <button
+              class="action-button save-button"
+              (click)="onSaveTitle(quiz.id)"
+            >
+              ✔
+            </button>
+            <button
+              class="action-button cancel-button"
+              (click)="onCancelEdit()"
+            >
+              ✖
+            </button>
+          } 
+          @else {
+            <button
+              class="action-button edit-button"
+              (click)="onEditTitle(quiz.id)"
+            >
+              ✏
+            </button>
+            <button
+              class="action-button delete-button"
+              (click)="onDeleteQuiz(quiz.id)"
+            >
+              🗑
+            </button>
+          }
+        </div>
+      </div>
+    } 
+  </div>
+</aside>

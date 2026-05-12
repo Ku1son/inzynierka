@@ -1,13 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { HomePage } from './pages/home-page/home-page';
 
 
 
 @Component({  //glowny komponent aplikacji
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [HomePage],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.scss',
+  standalone: true,
 })
 export class App {
   protected readonly title = signal('frontend');

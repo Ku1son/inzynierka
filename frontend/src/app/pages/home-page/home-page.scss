@@ -1,0 +1,32 @@
+.home-layout {
+  display: flex;
+}
+
+.home-content {
+  flex: 1;
+
+  padding: 3rem;
+}
+
+.hero-section {
+  max-width: 900px;
+}
+
+.hero-card {
+  padding: 3rem;
+}
+
+.welcome-badge {
+  display: inline-flex;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background-color: rgba(139, 92, 246, 0.15);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+}

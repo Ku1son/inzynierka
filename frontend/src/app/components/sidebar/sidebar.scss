@@ -1,0 +1,117 @@
+.sidebar {
+  width: 380px;
+  min-width: 380px;
+  height: calc(100vh - 70px);
+  padding: 1.5rem;
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quiz-list-placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.quiz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.quiz-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.quiz-button {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.quiz-button:hover {
+  color: var(--color-primary);
+}
+
+.quiz-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.action-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-light);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+}
+
+.edit-button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.delete-button:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.quiz-title-input {
+  width: 100%;
+  max-width: 220px;
+  background-color: var(--color-surface-light);
+  border: 1px solid var(--color-primary);
+  color: var(--color-text);
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+}
+
+.quiz-title-input:focus {
+  outline: none;
+}
+
+.save-button:hover {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.cancel-button:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
